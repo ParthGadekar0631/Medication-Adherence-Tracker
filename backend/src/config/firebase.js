@@ -9,7 +9,7 @@ const serviceAccount = JSON.parse(
 );
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(process.env.GOOGLE_APPLICATION_CREDENTIALS),
 });
 
 export const db = admin.firestore();
