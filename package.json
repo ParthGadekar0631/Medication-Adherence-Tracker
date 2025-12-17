@@ -1,5 +1,13 @@
+<<<<<<< HEAD
 {
   "dependencies": {
     "react-native-calendars": "^1.1313.0"
   }
 }
+=======
+{
+  "dependencies": {
+    "react-native-calendars": "^1.1313.0"
+  }
+}
+>>>>>>> a3e4351baa9accdf9c9e4fe4b4a376fc73facbd5
