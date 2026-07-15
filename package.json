@@ -1,13 +1,10 @@
-<<<<<<< HEAD
 {
-  "dependencies": {
-    "react-native-calendars": "^1.1313.0"
+  "name": "medication-adherence-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Medication Adherence Tracker monorepo",
+  "scripts": {
+    "test:backend": "npm test --prefix backend",
+    "build:frontend": "npm run build --prefix frontend"
   }
 }
-=======
-{
-  "dependencies": {
-    "react-native-calendars": "^1.1313.0"
-  }
-}
->>>>>>> a3e4351baa9accdf9c9e4fe4b4a376fc73facbd5

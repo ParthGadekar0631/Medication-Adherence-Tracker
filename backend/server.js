@@ -7,10 +7,18 @@ const connectDB = require('./config/db');
 
 const app = express();
 
-connectDB();
-
 app.use(cors());
 app.use(express.json());
+
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    console.error('MongoDB Connection Error:', error.message);
+    res.status(503).json({ message: 'Database service is unavailable' });
+  }
+});
 
 const providerRoutes = require('./routes/provider');
 const chatRoutes = require('./routes/chatRoutes');
@@ -35,7 +43,19 @@ app.use('/', (req, res) => {
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, '0.0.0.0', () => {
-});
+if (require.main === module) {
+  connectDB()
+    .then(() => {
+      app.listen(port, '0.0.0.0', () => {
+        console.log(`Medication Tracker API listening on port ${port}`);
+      });
 
-require('./utils/reminderScheduler');
+      require('./utils/reminderScheduler');
+    })
+    .catch((error) => {
+      console.error('MongoDB Connection Error:', error.message);
+      process.exitCode = 1;
+    });
+}
+
+module.exports = app;

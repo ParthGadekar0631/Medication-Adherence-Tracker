@@ -5,13 +5,6 @@ const Medication = require("../models/Medication");
 const { protect } = require("../middleware/auth");
 
 // ---------------------------
-// OpenAI Client
-// ---------------------------
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
-// ---------------------------
 // Fetch Patient Medications
 // ---------------------------
 async function getPatientMedications(userId) {
@@ -43,6 +36,12 @@ router.post("/", protect, async (req, res) => {
     const { message } = req.body;
     const user = req.user;
 
+    if (!process.env.OPENAI_API_KEY) {
+      return res.status(503).json({
+        error: "The chatbot is not configured. Add OPENAI_API_KEY to the backend environment.",
+      });
+    }
+
     if (!message) {
       return res.status(400).json({ error: "Message is required" });
     }
@@ -73,6 +72,10 @@ router.post("/", protect, async (req, res) => {
     console.log("🧠 Sending request to OpenAI...");
 
     // OpenAI request
+    const client = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+
     const response = await client.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
